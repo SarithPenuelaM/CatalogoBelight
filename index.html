@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BeLight | Catálogo de productos</title>
+  <style>
+    :root{
+      --bg:#f7f7f5;
+      --panel:#ffffff;
+      --muted:#6b7280;
+      --text:#111827;
+      --accent:#d4af37;
+      --accent-2:#b78f1f;
+      --border:#e5e7eb;
+    }
+
+    [data-theme="dark"]{
+      --bg:#0f172a;
+      --panel:#111827;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --accent:#d4af37;
+      --accent-2:#f5d27a;
+      --border:#1f2937;
+    }
+
+    /* Ajusta la ruta de la fuente según tu estructura de carpetas */
+    @font-face{
+      font-family:'Auterra';
+      src:url("./auttera Font/Auterra.ttf") format("truetype");
+      font-display:swap;
+    }
+
+    *{box-sizing:border-box;}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(255,255,255,.95);
+      border-bottom:1px solid var(--border);
+      z-index:10;
+      backdrop-filter:blur(8px);
+    }
+
+    [data-theme="dark"] header{
+      background:rgba(17,24,39,.9);
+    }
+
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:16px;
+    }
+
+    h1{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:0;
+      font-family:Auterra,serif;
+      font-size:28px;
+      color:var(--accent-2);
+    }
+
+    h2,h3{
+      font-family:Auterra,serif;
+      color:var(--accent-2);
+      margin:0;
+    }
+
+    .brand{
+      height:56px;
+      width:auto;
+    }
+
+    .toolbar{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      font-size:12px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#3a2600;
+      white-space:nowrap;
+    }
+
+    .toggle-label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color:var(--muted);
+      cursor:pointer;
+    }
+
+    main{
+      padding-top:8px;
+      padding-bottom:32px;
+    }
+
+    .hero{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    .hero-subtitle{
+      font-size:14px;
+      color:var(--muted);
+      max-width:600px;
+    }
+
+    .badge-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:4px;
+    }
+
+    .badge{
+      font-size:11px;
+      padding:3px 9px;
+      border-radius:999px;
+      background:#fef3c7;
+      color:#92400e;
+      border:1px solid #fcd34d;
+    }
+
+    .grid-products{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:16px;
+    }
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px;
+      box-shadow:0 6px 14px rgba(0,0,0,.04);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .product-image-wrap{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(135deg,#fef3c7,#fff7ed);
+      min-height:180px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .product-image{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .chip-category{
+      position:absolute;
+      top:8px;
+      left:8px;
+      background:rgba(255,255,255,.9);
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:11px;
+      color:#4b5563;
+      backdrop-filter:blur(6px);
+    }
+
+    .chip-weight{
+      position:absolute;
+      bottom:8px;
+      right:8px;
+      background:rgba(17,24,39,.85);
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:11px;
+      color:#f9fafb;
+      backdrop-filter:blur(6px);
+    }
+
+    .card-header-line{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .ref{
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#4b5563;
+    }
+
+    .tag-small{
+      font-size:11px;
+      padding:2px 7px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .card-title{
+      font-family:Auterra,serif;
+      font-size:20px;
+      margin-top:2px;
+      color:var(--accent-2);
+    }
+
+    .price-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:8px;
+      margin-top:4px;
+    }
+
+    .price-block{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .price-label{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .price-value{
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .price-main{
+      color:#8a6b10;
+    }
+
+    .price-bulk{
+      color:#047857;
+    }
+
+    .note-bulk{
+      font-size:11px;
+      color:var(--muted);
+      text-align:right;
+    }
+
+    footer{
+      text-align:center;
+      margin:24px 0 16px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:8px 0 16px;
+    }
+
+    .filter-btn{
+      border:none;
+      border-radius:999px;
+      padding:6px 12px;
+      font-size:12px;
+      cursor:pointer;
+      background:#f3f4f6;
+      color:#4b5563;
+    }
+
+    .filter-btn.active{
+      background:var(--accent);
+      color:#3a2600;
+    }
+
+    @media (max-width:640px){
+      h1{
+        font-size:22px;
+      }
+      .brand{
+        height:44px;
+      }
+    }
+
+    @media print{
+      header .toolbar{
+        display:none !important;
+      }
+      body{
+        background:#ffffff;
+      }
+      .card{
+        box-shadow:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex;align-items:center;gap:12px;">
+      <img class="brand" src="./Logo/LogoBelight.png" alt="BeLight logo" />
+      <h1>Catálogo de productos</h1>
+      <div class="toolbar">
+        <span class="pill">BeLight — Wherever you go</span>
+        <button id="printBtn" class="filter-btn">🖨️ Imprimir / Guardar PDF</button>
+        <label class="toggle-label">
+          <input id="themeToggle" type="checkbox" />
+          <span>Modo oscuro</span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h2>Velas que iluminan momentos</h2>
+      <p class="hero-subtitle">
+        Catálogo de referencias BeLight para pedidos al detal y por mayor. Cada pieza está elaborada con amor,
+        cuidando los detalles de aroma, color y terminación para acompañar tus rituales, eventos y regalos especiales.
+      </p>
+      <div class="badge-row">
+        <span class="badge">Hecho a mano en Colombia</span>
+        <span class="badge">Fragancias premium</span>
+        <span class="badge">Pedidos personalizados</span>
+      </div>
+    </section>
+
+    <section aria-label="Filtros de catálogo">
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Todas las categorías</button>
+        <button class="filter-btn" data-filter="Velones">Velones</button>
+        <button class="filter-btn" data-filter="Velones Triangular">Velones Triangular</button>
+        <button class="filter-btn" data-filter="Calderos">Calderos</button>
+        <button class="filter-btn" data-filter="Paticas Perro">Paticas perro</button>
+        <button class="filter-btn" data-filter="Masajes">Masajes</button>
+      </div>
+    </section>
+
+    <section aria-label="Listado de productos">
+      <div class="grid-products" id="productGrid">
+        <!-- VRP440 -->
+        <article class="card" data-category="Velones">
+          <div class="product-image-wrap">
+            <!-- Ajusta la extensión de las imágenes según tus archivos reales (jpg/png) -->
+            <img class="product-image" src="./Imágenes/VRP440.jpg" alt="VRP440 - Velón 440g" />
+            <span class="chip-category">Velones</span>
+            <span class="chip-weight">440 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP440</span>
+            <span class="tag-small">Colección clásica</span>
+          </div>
+          <p class="card-title">Velón premium 440 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$16.500</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$14.850</span>
+            </div>
+          </div>
+          <p class="note-bulk">Precio por mayor aplicado a pedidos de volumen.</p>
+        </article>
+
+        <!-- VRP250 -->
+        <article class="card" data-category="Velones">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP250.jpg" alt="VRP250 - Velón 250g" />
+            <span class="chip-category">Velones</span>
+            <span class="chip-weight">250 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP250</span>
+            <span class="tag-small">Colección clásica</span>
+          </div>
+          <p class="card-title">Velón premium 250 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$13.000</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$11.700</span>
+            </div>
+          </div>
+          <p class="note-bulk">Ideal para arreglos decorativos y centros de mesa.</p>
+        </article>
+
+        <!-- VRP230 -->
+        <article class="card" data-category="Velones Triangular">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP230.jpg" alt="VRP230 - Velón triangular 230g" />
+            <span class="chip-category">Velones Triangular</span>
+            <span class="chip-weight">230 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP230</span>
+            <span class="tag-small">Geometría & diseño</span>
+          </div>
+          <p class="card-title">Velón triangular 230 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$12.500</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$11.250</span>
+            </div>
+          </div>
+          <p class="note-bulk">Perfecto para decoraciones modernas y minimalistas.</p>
+        </article>
+
+        <!-- VRP210 -->
+        <article class="card" data-category="Velones">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP210.jpg" alt="VRP210 - Velón 210g" />
+            <span class="chip-category">Velones</span>
+            <span class="chip-weight">210 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP210</span>
+            <span class="tag-small">Uso cotidiano</span>
+          </div>
+          <p class="card-title">Velón 210 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$12.000</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$10.800</span>
+            </div>
+          </div>
+          <p class="note-bulk">Para rituales, oración y ambientación cálida.</p>
+        </article>
+
+        <!-- VRP205 -->
+        <article class="card" data-category="Velones">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP205.jpg" alt="VRP205 - Velón 205g" />
+            <span class="chip-category">Velones</span>
+            <span class="chip-weight">205 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP205</span>
+            <span class="tag-small">Uso cotidiano</span>
+          </div>
+          <p class="card-title">Velón 205 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$11.500</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$10.350</span>
+            </div>
+          </div>
+          <p class="note-bulk">Versátil para tiendas esotéricas y distribuidores.</p>
+        </article>
+
+        <!-- VRP190 -->
+        <article class="card" data-category="Velón Lapiz">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP190.jpg" alt="VRP190 - Velón lápiz 190g" />
+            <span class="chip-category">Velón Lapiz</span>
+            <span class="chip-weight">190 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP190</span>
+            <span class="tag-small">Formato lápiz</span>
+          </div>
+          <p class="card-title">Velón lápiz 190 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$11.000</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$9.900</span>
+            </div>
+          </div>
+          <p class="note-bulk">Ideal para altares, rituales y velas devocionales.</p>
+        </article>
+
+        <!-- VRP160 -->
+        <article class="card" data-category="Velón">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP160.jpg" alt="VRP160 - Velón 160g" />
+            <span class="chip-category">Velón</span>
+            <span class="chip-weight">160 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP160</span>
+            <span class="tag-small">Compacto</span>
+          </div>
+          <p class="card-title">Velón 160 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$10.500</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$9.450</span>
+            </div>
+          </div>
+          <p class="note-bulk">Tamaño ideal para kits de regalo y sets combinados.</p>
+        </article>
+
+        <!-- VRP120 -->
+        <article class="card" data-category="Velón">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/VRP120.jpg" alt="VRP120 - Velón 120g" />
+            <span class="chip-category">Velón</span>
+            <span class="chip-weight">120 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">VRP120</span>
+            <span class="tag-small">Detalle perfecto</span>
+          </div>
+          <p class="card-title">Velón 120 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$9.500</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$8.550</span>
+            </div>
+          </div>
+          <p class="note-bulk">Perfecto para recuerdos, detalles de eventos y souvenirs.</p>
+        </article>
+
+        <!-- CAL80 -->
+        <article class="card" data-category="Calderos">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/CAL80.jpg" alt="CAL80 - Caldero 80g" />
+            <span class="chip-category">Calderos</span>
+            <span class="chip-weight">80 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">CAL80</span>
+            <span class="tag-small">Mágico & ritual</span>
+          </div>
+          <p class="card-title">Caldero aromático 80 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$20.000</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$18.000</span>
+            </div>
+          </div>
+          <p class="note-bulk">Ideal para rituales, mesas de intención y decoración temática.</p>
+        </article>
+
+        <!-- PAT50 -->
+        <article class="card" data-category="Paticas Perro">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/PAT50.jpg" alt="PAT50 - Paticas perro 50g" />
+            <span class="chip-category">Paticas Perro</span>
+            <span class="chip-weight">50 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">PAT50</span>
+            <span class="tag-small">Pet lovers</span>
+          </div>
+          <p class="card-title">Paticas de perro 50 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$10.000</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$9.000</span>
+            </div>
+          </div>
+          <p class="note-bulk">Perfectas para regalos personalizados y amantes de mascotas.</p>
+        </article>
+
+        <!-- MAS80 -->
+        <article class="card" data-category="Masajes">
+          <div class="product-image-wrap">
+            <img class="product-image" src="./Imágenes/MAS80.jpg" alt="MAS80 - Vela de masajes 80g" />
+            <span class="chip-category">Masajes</span>
+            <span class="chip-weight">80 g</span>
+          </div>
+          <div class="card-header-line">
+            <span class="ref">MAS80</span>
+            <span class="tag-small">Spa & bienestar</span>
+          </div>
+          <p class="card-title">Vela de masajes 80 g</p>
+          <div class="price-row">
+            <div class="price-block">
+              <span class="price-label">Precio unitario</span>
+              <span class="price-value price-main">$50.000</span>
+            </div>
+            <div class="price-block">
+              <span class="price-label">Por mayor</span>
+              <span class="price-value price-bulk">$45.000</span>
+            </div>
+          </div>
+          <p class="note-bulk">Cera especial para masajes relajantes y rituales de spa.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 BeLight — Catálogo de productos. Precios en COP sujetos a cambio sin previo aviso.
+  </footer>
+
+  <script>
+    // Tema (claro/oscuro)
+    (function(){
+      const root = document.documentElement;
+      const saved = localStorage.getItem("belight.catalogo.theme");
+      if(saved === "dark"){
+        root.setAttribute("data-theme","dark");
+      }
+      const chk = document.getElementById("themeToggle");
+      if(chk){
+        chk.checked = root.getAttribute("data-theme") === "dark";
+        chk.addEventListener("change", () => {
+          if(chk.checked){
+            root.setAttribute("data-theme","dark");
+            localStorage.setItem("belight.catalogo.theme","dark");
+          }else{
+            root.removeAttribute("data-theme");
+            localStorage.setItem("belight.catalogo.theme","light");
+          }
+        });
+      }
+    })();
+
+    // Botón imprimir
+    document.getElementById("printBtn")?.addEventListener("click", () => {
+      window.print();
+    });
+
+    // Filtros por categoría
+    const filterButtons = document.querySelectorAll(".filter-btn[data-filter]");
+    const cards = document.querySelectorAll("#productGrid .card");
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const filter = btn.getAttribute("data-filter");
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        cards.forEach(card => {
+          const cat = card.getAttribute("data-category");
+          if(filter === "all" || cat === filter){
+            card.style.display = "";
+          }else{
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
